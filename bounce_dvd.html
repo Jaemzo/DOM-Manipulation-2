@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+
+        #bouncer{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+        }
+
+    </style>
+</head>
+<body>
+    <img id="bouncer" src="./images/sponge67.png" alt="#"> <!--Adds the image-->
+
+    <script>
+        const bumper = document.getElementById("bouncer")
+        let windowSize = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+        window.addEventListener("resize", function(){
+            windowSize = {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
+        })
+
+        /* move bouncer down and right until a collision occurs. 
+        then, change its direction based on which border it collided with*/
+
+        const speeds = {x: 10, y: 10};
+        const bumperLoc = {x: 0, y: 0}
+        let frames = setInterval(function(){
+            bumper.style.top = bumperLoc.y + "px";
+            bumper.style.left = bumperLoc.x + "px";
+            bumperLoc.x += speeds.x;
+            bumperLoc.y += speeds.y;
+        
+        if(bumperLoc.x > windowSize.width - bumper.width){
+             speeds.x *= -1;
+        }
+        if(bumperLoc.y > windowSize.height - bumper.height){
+             speeds.y *= -1;
+        } 
+         if(bumperLoc.x < 0){
+             speeds.x *= -1;
+        }
+        if(bumperLoc.y < 0){
+             speeds.y *= -1;
+        } 
+        },10) //takes the function it needs to execute, and how much you want it to run
+
+        bumper.addEventListener("click", function(){
+            //clearInterval(frames); stops movement
+            console.log(bumperLoc)
+            console.log(speeds);
+            console.log(window.innerWidth, window.innerHeight);
+            if(speeds.x > 0){ 
+                //going right
+                if(speeds.y > 0){ 
+                    //going right - down
+                    target = {x:window.innerWidth, y:window.innerHeight, cornerPos: {
+                        x: bumperLoc.x + bumper.width, y: bumperLoc.y + bumper.height
+                    }}
+                    difference = {x: target.x - target.cornerPos.x, y: target.y - target.cornerPos.y}
+                    console.log(difference)
+                    speeds.x = xspeed;
+                }else{
+                    //going right - up
+                    target = {x: window.innerWidth, y: 0}
+                }
+            }else{ 
+                if(speeds.y > 0){
+                    //going left - down
+                    target = {x: 0, y: window.innerHeight}
+                }else{
+                //going left - up   
+                    target = {x:0, y:0}
+            }
+        
+        }})
+    </script>
+</body>
+</html>
